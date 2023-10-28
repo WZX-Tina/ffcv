@@ -8,12 +8,17 @@ import numpy as np
 # P = 5, 10, 15, 20, 50, 100 ?
 
 space = {
-    'n_trees': [1, 2, 3, 4, 5],                            # T in Parabel paper
-    'min_branch_size': [10, 25, 50, 100, 250, 500, 1000],  # M
-    'max_depth': [10, 15, 20, 25, 30, 40, 50],
-    'linear.C': np.geomspace(0.01, 100, num=5),            # C
-    'linear.loss': ['hinge', 'log'],
+    'batch_size': [64,128],                            # T in Parabel paper
+    'epochs': [100,200,300,400,500],  # M
+    'lr': [0.001,0.01,0.1],
+    'momentum': [0.9,0.5,0.1],            # C
+    'weight_decay':[0.0005],
+    'label_smoothing':[0.01,0.1,0.5],
+    'lr_tta':[True],
+    'num_workers':[8]
 }
+
+
 
 # Note: you can also specify probability distributions, e.g.,
 # import scipy
