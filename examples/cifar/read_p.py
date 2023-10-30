@@ -3,7 +3,7 @@ import os
 import numpy as np
 from sklearn.model_selection import ParameterSampler, ParameterGrid
 
-from space_conf import space
+from space_conf import space,data
 def main(args):
     existing_pth = args.existing
     temp_pth = args.temp
@@ -11,12 +11,18 @@ def main(args):
         existing_hyperparameters = file.read().splitlines()
     ps = ParameterSampler(space, n_iter=1)
     for p in ps:
-        new_hp = ' '.join(['{name}:{value}'.format(name=k, value=v) for k, v in p.items()])
+        new_hp = ''.join(['  {name}:{value} \n'.format(name=k, value=v) for k, v in p.items()])
     if new_hp not in existing_hyperparameters:
         with open(existing_pth,"a") as file:
-            file.write(new_hp+'\n')
-        with open(temp_pth,"w") as file:
+        
             file.write(new_hp)
+        with open(temp_pth,"w") as file:
+            results = "training:\n"
+            results+=new_hp
+            dt = "data:\n"
+            for key,value in data.items():
+                dt+= f"  {key}: {value}\n"
+            file.write(dt+'\n'+results+'\n')
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
             description = 'Generate a hyperparameter')

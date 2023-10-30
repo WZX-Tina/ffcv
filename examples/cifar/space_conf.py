@@ -6,7 +6,12 @@ import numpy as np
 # misclass. penality for classifiers C = 10 (1) log loss (squared hinge loss)
 
 # P = 5, 10, 15, 20, 50, 100 ?
-
+data =  {
+  'gpu': 0,
+  'num_workers': 8,
+  'train_dataset': '/tmp/cifar_train.beton',
+  'val_dataset': '/tmp/cifar_test.beton'
+  }
 space = {
     'batch_size': [64,128],                            # T in Parabel paper
     'epochs': [100,200,300,400,500],  # M
