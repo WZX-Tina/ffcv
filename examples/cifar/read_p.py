@@ -11,7 +11,9 @@ def main(args):
         existing_hyperparameters = file.read().splitlines()
     ps = ParameterSampler(space, n_iter=1)
     for p in ps:
-        new_hp = ''.join(['  {name}:{value} \n'.format(name=k, value=v) for k, v in p.items()])
+        print(p)
+        new_hp = ''.join(['  {name}: {value}\n'.format(name=k, value=v) for k, v in p.items()])
+        print(new_hp)
     if new_hp not in existing_hyperparameters:
         with open(existing_pth,"a") as file:
         

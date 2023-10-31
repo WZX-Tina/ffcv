@@ -4,8 +4,8 @@ data:
   train_dataset: /tmp/cifar_train.beton
   val_dataset: /tmp/cifar_test.beton
 training:
-  batch_size: 128
   epochs: 300
+  batch_size: 128
   lr: 0.1
   momentum: 0.9
   lr_peak_epoch: 5
