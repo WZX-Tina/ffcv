@@ -16,6 +16,7 @@ space = {
     'batch_size': [64,128],                            # T in Parabel paper
     'epochs': [100,200,300,400,500],  # M
     'lr': [0.001,0.01,0.1],
+    'lr_peak_epoch':[5],
     'momentum': [0.9,0.5,0.1],            # C
     'weight_decay':[0.0005],
     'label_smoothing':[0.01,0.1,0.5],

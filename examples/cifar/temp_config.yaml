@@ -9,8 +9,9 @@ training:
   num_workers: 8
   momentum: 0.9
   lr_tta: True
-  lr: 0.001
-  label_smoothing: 0.5
-  epochs: 100
+  lr_peak_epoch: 5
+  lr: 0.1
+  label_smoothing: 0.01
+  epochs: 300
   batch_size: 128
 

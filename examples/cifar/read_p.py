@@ -15,8 +15,7 @@ def main(args):
         new_hp = ''.join(['  {name}: {value}\n'.format(name=k, value=v) for k, v in p.items()])
         print(new_hp)
     if new_hp not in existing_hyperparameters:
-        with open(existing_pth,"a") as file:
-        
+        with open(existing_pth,"a") as file: 
             file.write(new_hp)
         with open(temp_pth,"w") as file:
             results = "training:\n"
