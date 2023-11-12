@@ -7,11 +7,11 @@ data:
 training:
   weight_decay: 0.0005
   num_workers: 8
-  momentum: 0.9
+  momentum: 0.5
   lr_tta: True
   lr_peak_epoch: 5
-  lr: 0.1
-  label_smoothing: 0.01
+  lr: 0.001
+  label_smoothing: 0.1
   epochs: 300
   batch_size: 128
 

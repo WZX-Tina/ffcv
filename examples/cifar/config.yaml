@@ -1,0 +1,9 @@
+batch_size: 148
+epochs: 348
+label_smoothing: 0.06267886203713714
+lr: 0.1066763422647491
+lr_peak_epoch: 10
+lrtta: 'True'
+momentum: 0.9639779631048441
+num_workers: 9
+weight_decay: 0.00397460907464847

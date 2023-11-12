@@ -25,10 +25,11 @@ class resnet:
         lr_tta = Categorical('lrtta',['True','False'])
         num_workers = Integer('num_workers',(8,9),default = 8)
         lr_peak_epoch = Integer('lr_peak_epoch',(5,10),default = 5)
+        cs.add_hyperparameters([batch_size,lr,epochs,momentum,weight_decay,label_smoothing,lr_tta,num_workers,lr_peak_epoch])
+        return cs
 
 
-
-    def train(config,seed: int = 0):
+    def train(self,config:Configuration,seed:int=0):
     # Convert the hyperparameters to their appropriate types
         batch_size = int(config['batch_size'])
         lr = config['lr']
@@ -91,8 +92,10 @@ if __name__ == "__main__":
     for _ in range(10):
         info = smac.ask()
         assert info.seed is not None
-
-        cost = model.train(info.config, seed=info.seed)
+        print(info.config)
+        print(len(info.config))
+        print(info.seed)
+        cost = model.train(config=info.config, seed=info.seed)
         value = TrialValue(cost=cost, time=0.5)
 
         smac.tell(info, value)
