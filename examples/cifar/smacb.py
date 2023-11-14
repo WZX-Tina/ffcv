@@ -12,6 +12,7 @@ from torch.optim import SGD, lr_scheduler
 from tqdm import tqdm
 import yaml
 import subprocess
+import json
 class resnet:
     @property
     def configspace(self) -> ConfigurationSpace:
@@ -55,13 +56,17 @@ class resnet:
         }
         with open('config.yaml', 'w') as f:
             yaml.dump(yaml_config, f)
-        command = ['python', 'your_script.py', 'config.yaml']
+        command = ['python', 'train_cifar_100.py', '--config-file', 'default_config.yaml']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
         # Read the evaluation score from the subprocess output
-        output = process.stdout.read().decode('utf-8')
-        evaluation_score = float(output.strip())
+        results = None
+        with open('results.json') as f:
+            results = json.load(f)
+            # print(results)
+        evaluation_score = float(results['test'][-1])
+        print(evaluation_score)
 
         return -evaluation_score 
 
