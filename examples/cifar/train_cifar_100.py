@@ -49,6 +49,7 @@ from ffcv.transforms import RandomHorizontalFlip, Cutout, \
 from ffcv.transforms.common import Squeeze
 from ffcv.writer import DatasetWriter
 
+
 Section('training', 'Hyperparameters').params(
     lr=Param(float, 'The learning rate to use', required=True),
     epochs=Param(int, 'Number of epochs to run for', required=True),
@@ -161,8 +162,10 @@ def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
     scheduler = lr_scheduler.LambdaLR(opt, lr_schedule.__getitem__)
     scaler = GradScaler()
     loss_fn = CrossEntropyLoss(label_smoothing=label_smoothing)
-
-    for _ in range(epochs):
+    
+    train_acc = []
+    test_acc = []
+    for ite in range(epochs):
         for ims, labs in tqdm(loaders['train']):
             opt.zero_grad(set_to_none=True)
             with autocast():
@@ -173,6 +176,25 @@ def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
             scaler.step(opt)
             scaler.update()
             scheduler.step()
+        # At the end of each epoch: append the accuracy
+        accuracies = evaluate(model, loaders)
+        test_acc.append(accuracies['test'])
+        train_acc.append(accuracies['train'])
+        # print out results for every 100 epoch
+        if (ite+1)%100 ==0:
+            print('####epoch {}'.format(ite+1))
+            print(f'train accuracy: {accuracies["train"]:.2f}%')
+            print(f'test accuracy: {accuracies["test"]:.2f}%')
+    # find out the maximum epoch:
+    train_acc = ch.tensor(train_acc)
+    test_acc = ch.tensor(test_acc)
+    train_max_ind = ch.argmax(train_acc)
+    test_max_ind = ch.argmax(test_acc)
+    print('Maximum Accuracy for Training Occurs in epcoh #{}: {:.2f}%'.format(train_max_ind+1,train_acc[train_max_ind].item()))
+    print('Maximum Accuracy for Training Occurs in epcoh #{}: {:.2f}%'.format(test_max_ind+1,test_acc[test_max_ind].item()))
+    print('#'*30)
+    print('Final round Accuracy for Training in epoch #{}: {:.2f}%'.format(epochs,train_acc[-1].item()))
+    print('Final round Accuracy for Testing in epoch #{}: {:.2f}%'.format(epochs,test_acc[-1].item()))
 
 @param('training.lr_tta')
 def evaluate(model, loaders, lr_tta=False):
@@ -189,8 +211,9 @@ def evaluate(model, loaders, lr_tta=False):
                     total_correct += out.argmax(1).eq(labs).sum().cpu().item()
                     total_num += ims.shape[0]
             accuracy = round(total_correct / total_num * 100, 2)
-            print(f'{name} accuracy: {total_correct / total_num * 100:.1f}%')
+            # print(f'{name} accuracy: {total_correct / total_num * 100:.1f}%')
             accuracies[name] = accuracy
+            
     return accuracies
 
 def write_results(file, hyperparameters, runtime, accuracies):

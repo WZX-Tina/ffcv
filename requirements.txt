@@ -1,0 +1,40 @@
+assertpy==1.1
+certifi==2022.12.7
+charset-normalizer==2.1.1
+cmake==3.25.0
+cupy @ file:///home/conda/feedstock_root/build_artifacts/cupy_1696453763216/work
+fastargs==1.2.0
+fastrlock @ file:///home/conda/feedstock_root/build_artifacts/fastrlock_1695477338231/work
+ffcv @ file:///ext3/ffcv
+filelock==3.9.0
+idna==3.4
+Jinja2==3.1.2
+joblib==1.3.2
+lit==15.0.7
+llvmlite==0.40.1
+MarkupSafe==2.1.2
+mpmath==1.3.0
+networkx==3.0
+numba @ file:///home/conda/feedstock_root/build_artifacts/numba_1687804756633/work
+numpy @ file:///home/conda/feedstock_root/build_artifacts/numpy_1687808322243/work
+opencv-python==4.8.1
+packaging==23.2
+Pillow==9.3.0
+psutil==5.9.6
+pytorch-pfn-extras==0.7.3
+PyYAML==6.0.1
+requests==2.28.1
+scikit-learn==1.3.2
+scipy==1.11.3
+sklearn==0.0.post10
+sympy==1.12
+terminaltables==3.1.10
+threadpoolctl==3.2.0
+torch==2.0.0+cu117
+torchaudio==2.0.1+cu117
+torchmetrics==0.6.2
+torchvision==0.15.1+cu117
+tqdm==4.66.1
+triton==2.0.0
+typing_extensions==4.4.0
+urllib3==1.26.13
