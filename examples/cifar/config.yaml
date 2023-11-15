@@ -1,9 +1,17 @@
-batch_size: 148
-epochs: 348
-label_smoothing: 0.06267886203713714
-lr: 0.1066763422647491
-lr_peak_epoch: 10
-lrtta: 'True'
-momentum: 0.9639779631048441
-num_workers: 9
-weight_decay: 0.00397460907464847
+data:
+  gpu: 0
+  num_workers: 8
+  train_dataset: /tmp/cifar_train.beton
+  val_dataset: /tmp/cifar_test.beton
+
+training:
+  batch_size: 22
+  lr: 0.43545615451596675
+  epochs: 257
+  momentum: 0.5382330945692957
+  weight_decay: 0.0038272413616068667
+  label_smoothing: 0.48983709718100726
+  lr_tta: True
+  num_workers: 9
+  lr_peak_epoch: 8
+

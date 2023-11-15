@@ -50,7 +50,7 @@ class resnet:
             'momentum': momentum,
             'weight_decay': weight_decay,
             'label_smoothing': label_smoothing,
-            'lrtta': lr_tta,
+            'lr_tta': lr_tta,
             'num_workers': num_workers,
             'lr_peak_epoch': lr_peak_epoch
         }
@@ -60,7 +60,7 @@ class resnet:
             'train_dataset': '/tmp/cifar_train.beton',
             'val_dataset': '/tmp/cifar_test.beton'
             }
-        new_hp = ''.join(['  {name}={value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
+        new_hp = ''.join(['  {name}: {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
         results = "training:\n"
         results+=new_hp
         dt = "data:\n"
@@ -68,7 +68,7 @@ class resnet:
             dt+= f"  {key}: {value}\n"
         print(dt+'\n'+results+'\n')
         with open('config.yaml', 'w') as f:
-            yaml.dump(dt+'\n'+results+'\n', f)
+            f.write(dt+'\n'+results+'\n')
         command = ['python', 'train_cifar_100.py', '--config-file', 'config.yaml']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
@@ -110,9 +110,6 @@ if __name__ == "__main__":
     for _ in range(10):
         info = smac.ask()
         assert info.seed is not None
-        print(info.config)
-        print(len(info.config))
-        print(info.seed)
         cost = model.train(config=info.config, seed=info.seed)
         value = TrialValue(cost=cost, time=0.5)
 

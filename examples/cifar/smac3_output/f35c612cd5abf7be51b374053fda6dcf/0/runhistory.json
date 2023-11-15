@@ -1,0 +1,85 @@
+{
+  "stats": {
+    "submitted": 3,
+    "finished": 3,
+    "running": 0
+  },
+  "data": [
+    [
+      1,
+      null,
+      209652396,
+      null,
+      -65.74,
+      0.5,
+      1,
+      0.0,
+      0.0,
+      {}
+    ],
+    [
+      2,
+      null,
+      209652396,
+      null,
+      -85.81,
+      0.5,
+      1,
+      0.0,
+      0.0,
+      {}
+    ],
+    [
+      3,
+      null,
+      209652396,
+      null,
+      -87.84,
+      0.5,
+      1,
+      0.0,
+      0.0,
+      {}
+    ]
+  ],
+  "configs": {
+    "1": {
+      "batch_size": 148,
+      "epochs": 348,
+      "label_smoothing": 0.06267886203713714,
+      "lr": 0.1066763422647491,
+      "lr_peak_epoch": 10,
+      "lrtta": "True",
+      "momentum": 0.9639779631048441,
+      "num_workers": 9,
+      "weight_decay": 0.00397460907464847
+    },
+    "2": {
+      "batch_size": 402,
+      "epochs": 181,
+      "label_smoothing": 0.3437404848076403,
+      "lr": 0.29640190562047064,
+      "lr_peak_epoch": 5,
+      "lrtta": "False",
+      "momentum": 0.18682547453790904,
+      "num_workers": 8,
+      "weight_decay": 0.0008030356685630978
+    },
+    "3": {
+      "batch_size": 264,
+      "epochs": 415,
+      "label_smoothing": 0.1620023235306144,
+      "lr": 0.24923089635837822,
+      "lr_peak_epoch": 6,
+      "lrtta": "False",
+      "momentum": 0.6126999759115279,
+      "num_workers": 8,
+      "weight_decay": 0.0023610565462149685
+    }
+  },
+  "config_origins": {
+    "1": "Initial Design: Sobol",
+    "2": "Initial Design: Sobol",
+    "3": "Initial Design: Sobol"
+  }
+}
