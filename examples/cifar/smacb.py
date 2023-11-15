@@ -1,6 +1,6 @@
 
 
-from ConfigSpace import Configuration, ConfigurationSpace, Float,Integer, Categorical, Normal
+from ConfigSpace import Configuration, ConfigurationSpace, Float,Integer, Categorical, Normal,Constant
 
 from smac import HyperparameterOptimizationFacade, Scenario
 from smac.runhistory.dataclasses import TrialValue
@@ -13,19 +13,21 @@ from tqdm import tqdm
 import yaml
 import subprocess
 import json
+from ConfigSpace.hyperparameters import UniformFloatHyperparameter
+import random
 class resnet:
     @property
     def configspace(self) -> ConfigurationSpace:
         cs = ConfigurationSpace(seed = 0)
-        batch_size = Integer('batch_size',(16,512),default = 128)
-        lr = Float('lr',(0.001,0.5),default = 0.01)
-        epochs = Integer('epochs',(100,500),default = 200)
-        momentum = Float('momentum',(0.1,1),default = 0.1)
-        weight_decay = Float('weight_decay',(0.0005,0.005),default = 0.0005)
-        label_smoothing = Float('label_smoothing',(0.01,0.5),default = 0.1)
-        lr_tta = Categorical('lrtta',['True','False'])
-        num_workers = Integer('num_workers',(8,9),default = 8)
-        lr_peak_epoch = Integer('lr_peak_epoch',(5,10),default = 5)
+        batch_size = Constant('batch_size',4196)
+        lr = UniformFloatHyperparameter('lr',(0.0001,10),log = True)
+        epochs = Integer('epochs',(30,300))
+        momentum = Float('momentum',(0,1))
+        weight_decay = UniformFloatHyperparameter('weight_decay',(0.000001,0.1),log = True)
+        label_smoothing = Float('label_smoothing',(0,0.5))
+        lr_tta = Constant('lr_tta',value = True)
+        num_workers = Constant('num_workers',value=8)
+        lr_peak_epoch = Float('lr_peak_epoch',(0,1))
         cs.add_hyperparameters([batch_size,lr,epochs,momentum,weight_decay,label_smoothing,lr_tta,num_workers,lr_peak_epoch])
         return cs
 
@@ -38,9 +40,9 @@ class resnet:
         momentum = config['momentum']
         weight_decay = config['weight_decay']
         label_smoothing = config['label_smoothing']
-        lr_tta = config['lrtta']
+        lr_tta = config['lr_tta']
         num_workers = int(config['num_workers'])
-        lr_peak_epoch = int(config['lr_peak_epoch'])
+        lr_peak_epoch = int(random.random()*config['epochs'])
 
         # Generate the YAML configuration file
         yaml_config = {

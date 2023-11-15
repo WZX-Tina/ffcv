@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.model_selection import ParameterSampler, ParameterGrid
 
 from space_conf import space,data
+import random
 def main(args):
     existing_pth = args.existing
     temp_pth = args.temp
@@ -11,7 +12,7 @@ def main(args):
         existing_hyperparameters = file.read().splitlines()
     ps = ParameterSampler(space, n_iter=1)
     for p in ps:
-        print(p)
+        p['lr_peak_epoch'] =int(random.random()*p['epochs'])
         new_hp = ''.join(['  {name}: {value}\n'.format(name=k, value=v) for k, v in p.items()])
         print(new_hp)
     if new_hp not in existing_hyperparameters:

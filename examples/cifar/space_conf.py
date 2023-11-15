@@ -13,13 +13,13 @@ data =  {
   'val_dataset': '/tmp/cifar_test.beton'
   }
 space = {
-    'batch_size': [64,128],                            # T in Parabel paper
-    'epochs': [100,200,300,400,500],  # M
-    'lr': [0.001,0.01,0.1],
+    'batch_size': [4196],                            # T in Parabel paper
+    'epochs': np.arange(35,301).tolist(),  # M
+    'lr': np.logspace(-4,1,num=100).tolist(),
     'lr_peak_epoch':[5],
-    'momentum': [0.9,0.5,0.1],            # C
-    'weight_decay':[0.0005],
-    'label_smoothing':[0.01,0.1,0.5],
+    'momentum': np.linspace(0,1,num=100).tolist(),            # C
+    'weight_decay': np.logspace(-6, -1, num=100).tolist(),
+    'label_smoothing':np.linspace(0, 0.5, num=100),
     'lr_tta':[True],
     'num_workers':[8]
 }
