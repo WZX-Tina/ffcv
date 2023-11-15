@@ -34,3 +34,12 @@
   label_smoothing: 0.1
   epochs: 300
   batch_size: 128
+  weight_decay: 0.0005
+  num_workers: 8
+  momentum: 0.1
+  lr_tta: True
+  lr_peak_epoch: 5
+  lr: 0.1
+  label_smoothing: 0.5
+  epochs: 400
+  batch_size: 128

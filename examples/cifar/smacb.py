@@ -54,9 +54,22 @@ class resnet:
             'num_workers': num_workers,
             'lr_peak_epoch': lr_peak_epoch
         }
+        data =  {
+            'gpu': 0,
+            'num_workers': 8,
+            'train_dataset': '/tmp/cifar_train.beton',
+            'val_dataset': '/tmp/cifar_test.beton'
+            }
+        new_hp = ''.join(['  {name}={value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
+        results = "training:\n"
+        results+=new_hp
+        dt = "data:\n"
+        for key,value in data.items():
+            dt+= f"  {key}: {value}\n"
+        print(dt+'\n'+results+'\n')
         with open('config.yaml', 'w') as f:
-            yaml.dump(yaml_config, f)
-        command = ['python', 'train_cifar_100.py', '--config-file', 'default_config.yaml']
+            yaml.dump(dt+'\n'+results+'\n', f)
+        command = ['python', 'train_cifar_100.py', '--config-file', 'config.yaml']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
