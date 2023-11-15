@@ -1,0 +1,133 @@
+{
+  "stats": {
+    "submitted": 5,
+    "finished": 5,
+    "running": 0
+  },
+  "data": [
+    [
+      1,
+      null,
+      209652396,
+      null,
+      -87.84,
+      0.5,
+      1,
+      0.0,
+      0.0,
+      {}
+    ],
+    [
+      2,
+      null,
+      209652396,
+      null,
+      -87.84,
+      0.5,
+      1,
+      0.0,
+      0.0,
+      {}
+    ],
+    [
+      3,
+      null,
+      209652396,
+      null,
+      -87.84,
+      0.5,
+      1,
+      0.0,
+      0.0,
+      {}
+    ],
+    [
+      4,
+      null,
+      209652396,
+      null,
+      -87.84,
+      0.5,
+      1,
+      0.0,
+      0.0,
+      {}
+    ],
+    [
+      5,
+      null,
+      209652396,
+      null,
+      -87.84,
+      0.5,
+      1,
+      0.0,
+      0.0,
+      {}
+    ]
+  ],
+  "configs": {
+    "1": {
+      "batch_size": 4196,
+      "epochs": 102,
+      "label_smoothing": 0.31028234772384167,
+      "lr": 0.000344777890824249,
+      "lr_peak_epoch": 0.21177623700350523,
+      "lr_tta": "True",
+      "momentum": 0.8613398345187306,
+      "num_workers": 8,
+      "weight_decay": 0.00030031589286416954
+    },
+    "2": {
+      "batch_size": 4196,
+      "epochs": 203,
+      "label_smoothing": 0.05366098787635565,
+      "lr": 8.834436709134266,
+      "lr_peak_epoch": 0.8203387865796685,
+      "lr_tta": "True",
+      "momentum": 0.39195177610963583,
+      "num_workers": 8,
+      "weight_decay": 0.025852428316687142
+    },
+    "3": {
+      "batch_size": 4196,
+      "epochs": 246,
+      "label_smoothing": 0.4456212231889367,
+      "lr": 0.011288231480983103,
+      "lr_peak_epoch": 0.340255917981267,
+      "lr_tta": "True",
+      "momentum": 0.18238688074052334,
+      "num_workers": 8,
+      "weight_decay": 0.0006976707704996236
+    },
+    "4": {
+      "batch_size": 4196,
+      "epochs": 77,
+      "label_smoothing": 0.19052383303642273,
+      "lr": 0.06388591022238588,
+      "lr_peak_epoch": 0.6998947635293007,
+      "lr_tta": "True",
+      "momentum": 0.5875072441995144,
+      "num_workers": 8,
+      "weight_decay": 1.9337382056533485e-06
+    },
+    "5": {
+      "batch_size": 4196,
+      "epochs": 37,
+      "label_smoothing": 0.4110573581419885,
+      "lr": 0.5963813128552989,
+      "lr_peak_epoch": 0.5148222232237458,
+      "lr_tta": "True",
+      "momentum": 0.6888624522835016,
+      "num_workers": 8,
+      "weight_decay": 5.421665043846352e-05
+    }
+  },
+  "config_origins": {
+    "1": "Initial Design: Sobol",
+    "2": "Initial Design: Sobol",
+    "3": "Initial Design: Sobol",
+    "4": "Initial Design: Sobol",
+    "5": "Initial Design: Sobol"
+  }
+}
