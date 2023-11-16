@@ -8,6 +8,7 @@ import random
 def main(args):
     existing_pth = args.existing
     temp_pth = args.temp
+    sn = args.seed
     with open(existing_pth, "r") as file:
         existing_hyperparameters = file.read().splitlines()
     ps = ParameterSampler(space, n_iter=1)
@@ -24,7 +25,11 @@ def main(args):
             dt = "data:\n"
             for key,value in data.items():
                 dt+= f"  {key}: {value}\n"
-            file.write(dt+'\n'+results+'\n')
+            seed = {'seednum': sn}
+            sd = "seed:\n"
+            for key,value in seed.items():
+                sd+=f"  {key}: {value}\n"
+            file.write(dt+'\n'+results+'\n'+sd+'\n')
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
             description = 'Generate a hyperparameter')
@@ -32,6 +37,8 @@ if __name__ == '__main__':
             help = 'exisiting hyperparameter file')
     parser.add_argument('temp',type = str,
             help = 'temporary hyperparameter file')
+    parser.add_argument("seed", type=int,
+            help="random seed")
     args = parser.parse_args()
     main(args)
 

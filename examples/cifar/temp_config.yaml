@@ -5,14 +5,16 @@ data:
   val_dataset: /tmp/cifar_test.beton
 
 training:
-  weight_decay: 0.0005
+  weight_decay: 0.0004229242874389499
   num_workers: 8
-  momentum: 0.1
+  momentum: 0.393939393939394
   lr_tta: True
-  lr_peak_epoch: 5
-  lr: 0.1
-  label_smoothing: 0.5
-  epochs: 1
-  batch_size: 128
+  lr_peak_epoch: 22
+  lr: 0.000572236765935022
+  label_smoothing: 0.4747474747474748
+  epochs: 52
+  batch_size: 4196
+
 seed:
-  seednum: 123
+  seednum: 54321
+
