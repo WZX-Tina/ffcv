@@ -1,0 +1,37 @@
+{
+  "stats": {
+    "submitted": 1,
+    "finished": 1,
+    "running": 0
+  },
+  "data": [
+    [
+      1,
+      null,
+      209652396,
+      null,
+      -49.83,
+      0.5,
+      1,
+      0.0,
+      0.0,
+      {}
+    ]
+  ],
+  "configs": {
+    "1": {
+      "batch_size": 4196,
+      "epochs": 178,
+      "label_smoothing": 0.48183138025051464,
+      "lr": 0.00012620948285169316,
+      "lr_peak_epoch": 0.11827442586893322,
+      "lr_tta": "True",
+      "momentum": 0.45615033221654855,
+      "num_workers": 8,
+      "weight_decay": 6.273927602293595e-05
+    }
+  },
+  "config_origins": {
+    "1": "Initial Design: Random"
+  }
+}

@@ -12,6 +12,7 @@ training:
   lr_peak_epoch: 5
   lr: 0.1
   label_smoothing: 0.5
-  epochs: 400
+  epochs: 1
   batch_size: 128
-
+seed:
+  seednum: 123

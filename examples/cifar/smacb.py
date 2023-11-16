@@ -2,7 +2,8 @@
 
 from ConfigSpace import Configuration, ConfigurationSpace, Float,Integer, Categorical, Normal,Constant
 
-from smac import HyperparameterOptimizationFacade, Scenario
+from smac import HyperparameterOptimizationFacade, Scenario,BlackBoxFacade
+from smac.initial_design import RandomInitialDesign
 from smac.runhistory.dataclasses import TrialValue
 import numpy as np
 import torch as ch
@@ -15,6 +16,8 @@ import subprocess
 import json
 from ConfigSpace.hyperparameters import UniformFloatHyperparameter
 import random
+import argparse
+from argparse import ArgumentParser
 class resnet:
     @property
     def configspace(self) -> ConfigurationSpace:
@@ -32,7 +35,7 @@ class resnet:
         return cs
 
 
-    def train(self,config:Configuration,seed:int=0):
+    def train(self,config:Configuration,seed:int=0,sn:int=0):
     # Convert the hyperparameters to their appropriate types
         batch_size = int(config['batch_size'])
         lr = config['lr']
@@ -43,7 +46,7 @@ class resnet:
         lr_tta = config['lr_tta']
         num_workers = int(config['num_workers'])
         lr_peak_epoch = int(random.random()*config['epochs'])
-
+        
         # Generate the YAML configuration file
         yaml_config = {
             'batch_size': batch_size,
@@ -62,15 +65,19 @@ class resnet:
             'train_dataset': '/tmp/cifar_train.beton',
             'val_dataset': '/tmp/cifar_test.beton'
             }
+        seed = {'seednum': sn}
         new_hp = ''.join(['  {name}: {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
         results = "training:\n"
         results+=new_hp
         dt = "data:\n"
+        sd = "seed:\n"
+        for key,value in seed.items():
+            sd+=f"  {key}: {value}\n"
         for key,value in data.items():
             dt+= f"  {key}: {value}\n"
-        print(dt+'\n'+results+'\n')
+        print(dt+'\n'+results+'\n'+sd+'\n')
         with open('config.yaml', 'w') as f:
-            f.write(dt+'\n'+results+'\n')
+            f.write(dt+'\n'+results+'\n'+sd+'\n')
         command = ['python', 'train_cifar_100.py', '--config-file', 'config.yaml']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
@@ -90,29 +97,39 @@ class resnet:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("seed", type=int,
+                    help="random seed")
+
+    args = vars(parser.parse_args())['seed']
+    print(args)
     model = resnet()
 
     # Scenario object
     scenario = Scenario(model.configspace, deterministic=False, n_trials=100)
 
-    intensifier = HyperparameterOptimizationFacade.get_intensifier(
+    intensifier_gp = BlackBoxFacade.get_intensifier(
         scenario,
         max_config_calls=1,  # We basically use one seed per config only
     )
+    initial = RandomInitialDesign(scenario,n_configs = 8)
+
 
     # Now we use SMAC to find the best hyperparameters
-    smac = HyperparameterOptimizationFacade(
+    smac = BlackBoxFacade(
         scenario,
         model.train,
-        intensifier=intensifier,
+        intensifier=intensifier_gp,  # No intensifier initially
+        initial_design=initial,  # No initial design, as we'll handle it manually
         overwrite=True,
     )
 
     # We can ask SMAC which trials should be evaluated next
-    for _ in range(36):
+    for i in range(36):
+    
         info = smac.ask()
         assert info.seed is not None
-        cost = model.train(config=info.config, seed=info.seed)
+        cost = model.train(config=info.config, seed=info.seed,sn=args)
         value = TrialValue(cost=cost, time=0.5)
 
         smac.tell(info, value)

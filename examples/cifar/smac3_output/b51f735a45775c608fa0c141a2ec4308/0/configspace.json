@@ -1,0 +1,77 @@
+{
+  "hyperparameters": [
+    {
+      "name": "batch_size",
+      "type": "constant",
+      "value": 4196
+    },
+    {
+      "name": "epochs",
+      "type": "uniform_int",
+      "log": false,
+      "lower": 30,
+      "upper": 300,
+      "default": 165,
+      "q": null
+    },
+    {
+      "name": "label_smoothing",
+      "type": "uniform_float",
+      "log": false,
+      "lower": 0.0,
+      "upper": 0.5,
+      "default": 0.25,
+      "q": null
+    },
+    {
+      "name": "lr",
+      "type": "uniform_float",
+      "log": true,
+      "lower": 0.0001,
+      "upper": 10.0,
+      "default": 0.0316227766,
+      "q": null
+    },
+    {
+      "name": "lr_peak_epoch",
+      "type": "uniform_float",
+      "log": false,
+      "lower": 0.0,
+      "upper": 1.0,
+      "default": 0.5,
+      "q": null
+    },
+    {
+      "name": "lr_tta",
+      "type": "constant",
+      "value": "True"
+    },
+    {
+      "name": "momentum",
+      "type": "uniform_float",
+      "log": false,
+      "lower": 0.0,
+      "upper": 1.0,
+      "default": 0.5,
+      "q": null
+    },
+    {
+      "name": "num_workers",
+      "type": "constant",
+      "value": 8
+    },
+    {
+      "name": "weight_decay",
+      "type": "uniform_float",
+      "log": true,
+      "lower": 1e-06,
+      "upper": 0.1,
+      "default": 0.0003162278,
+      "q": null
+    }
+  ],
+  "conditions": [],
+  "forbiddens": [],
+  "python_module_version": "0.6.1",
+  "json_format_version": 0.4
+}

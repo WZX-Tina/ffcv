@@ -65,6 +65,11 @@ Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', required=True),
     val_dataset=Param(str, '.dat file to use for validation', required=True),
 )
+Section('seed','random seed').params(seednum=Param(int,'random seed'))
+
+@param('seed.seednum')
+def getseed(sn):
+    return sn 
 
 @param('data.train_dataset')
 @param('data.val_dataset')
@@ -217,20 +222,26 @@ def write_results(file, hyperparameters, runtime, accuracies):
 if __name__ == "__main__":
     config = get_current_config()
     parser = ArgumentParser(description='Fast CIFAR-100 training')
+    
     config.augment_argparse(parser)
+
     # Also loads from args.config_path if provided
     config.collect_argparse_args(parser)
+    
+    sn = vars(config.get().seed)['seednum']
     args = config.get().training
     args = vars(args)
+    
     print(args)
     print(config.get().training)
+
     config.validate(mode='stderr')
     config.summary()
-
     loaders, start_time = make_dataloaders()
     model = construct_model()
     train(model, loaders)
     total_time = time.time() - start_time
     print(f'Total time: {total_time:.5f}')
     accuracies = evaluate(model, loaders)
-    write_results('results.json', args, total_time, accuracies)
+    write_results(f'result{sn}.json', args, total_time, accuracies)
+
