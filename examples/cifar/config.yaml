@@ -6,12 +6,12 @@ data:
 
 training:
   batch_size: 4196
-  lr: 0.0006031962615640894
-  epochs: 274
-  momentum: 0.033439502120018005
-  weight_decay: 0.008047166932040347
-  label_smoothing: 0.17152584018185735
+  lr: 7.716366708524112
+  epochs: 225
+  momentum: 0.02386004434170004
+  weight_decay: 0.009571506019582308
+  label_smoothing: 0.38809647522572255
   lr_tta: True
   num_workers: 8
-  lr_peak_epoch: 198
+  lr_peak_epoch: 146
 

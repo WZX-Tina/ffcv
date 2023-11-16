@@ -109,7 +109,7 @@ if __name__ == "__main__":
     )
 
     # We can ask SMAC which trials should be evaluated next
-    for _ in range(10):
+    for _ in range(36):
         info = smac.ask()
         assert info.seed is not None
         cost = model.train(config=info.config, seed=info.seed)
