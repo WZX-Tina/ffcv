@@ -62,8 +62,8 @@ class resnet:
         data =  {
             'gpu': 0,
             'num_workers': 8,
-            'train_dataset': '/tmp/cifar_train.beton',
-            'val_dataset': '/tmp/cifar_test.beton'
+            'train_dataset': '/scratch/zd2260/cifar_train.beton',
+            'val_dataset': '/scratch/zd2260/cifar_test.beton'
             }
         seed = {'seednum': sn}
         new_hp = ''.join(['  {name}: {value}\n'.format(name=k, value=v) for k, v in yaml_config.items()])
@@ -103,6 +103,7 @@ if __name__ == "__main__":
 
     args = vars(parser.parse_args())['seed']
     print(args)
+    random.seed(args)
     model = resnet()
 
     # Scenario object
@@ -125,7 +126,7 @@ if __name__ == "__main__":
     )
 
     # We can ask SMAC which trials should be evaluated next
-    for i in range(36):
+    for i in range(80):
     
         info = smac.ask()
         assert info.seed is not None
