@@ -1,1 +1,0 @@
-{"lr": [0.00012620948285169316], "epochs": [178], "lr_peak_epoch": [143], "batch_size": [4196], "momentum": [0.45615033221654855], "weight_decay": [6.273927602293595e-05], "label_smoothing": [0.48183138025051464], "num_workers": [8], "lr_tta": [true], "time": [98.03812551498413], "train": [1.01], "test": [1.04]}
