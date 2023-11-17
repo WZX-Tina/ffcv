@@ -6,15 +6,15 @@ data:
 
 training:
   batch_size: 4196
-  lr: 1.0100233067010114
-  epochs: 300
-  momentum: 0.05890795499830488
-  weight_decay: 0.09999237923301846
-  label_smoothing: 0.49991006670693866
+  lr: 0.9907833888567507
+  epochs: 266
+  momentum: 0.07193671028112354
+  weight_decay: 0.060906669992342635
+  label_smoothing: 0.4999216488911629
   lr_tta: True
   num_workers: 8
-  lr_peak_epoch: 149
+  lr_peak_epoch: 47
 
 seed:
-  seednum: 6694
+  seednum: 26420
 

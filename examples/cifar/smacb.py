@@ -76,15 +76,15 @@ class resnet:
         for key,value in data.items():
             dt+= f"  {key}: {value}\n"
         print(dt+'\n'+results+'\n'+sd+'\n')
-        with open('config.yaml', 'w') as f:
+        with open(f'config{sn}.yaml', 'w') as f:
             f.write(dt+'\n'+results+'\n'+sd+'\n')
-        command = ['python', 'train_cifar_100.py', '--config-file', 'config.yaml']
+        command = ['python', 'train_cifar_100.py', '--config-file', f'config{sn}.yaml']
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         process.wait()
 
         # Read the evaluation score from the subprocess output
         results = None
-        with open('results.json') as f:
+        with open(f'result{sn}.json') as f:
             results = json.load(f)
             # print(results)
         evaluation_score = float(results['test'][-1])
