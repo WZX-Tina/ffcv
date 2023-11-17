@@ -35,7 +35,6 @@ from torch.nn import CrossEntropyLoss, Conv2d, BatchNorm2d
 from torch.optim import SGD, lr_scheduler
 import torchvision
 from torchvision import models
-from torchvision.models import resnet18
 
 from fastargs import get_current_config, Param, Section
 from fastargs.decorators import param
@@ -136,6 +135,7 @@ def conv_bn(channels_in, channels_out, kernel_size=3, stride=1, padding=1, group
             ch.nn.BatchNorm2d(channels_out),
             ch.nn.ReLU(inplace=True)
     )
+
 Section('model', 'model details').params(
     arch=Param(And(str, OneOf(models.__dir__())), default='resnet18'),
     pretrained=Param(int, 'is pretrained? (1/0)', default=0)
@@ -146,10 +146,38 @@ Section('model', 'model details').params(
 def construct_model(arch, pretrained):
     num_class = 100
     model = getattr(models, arch)(pretrained=pretrained)
-    model.fc.out_features=100
     model = model.to(memory_format=ch.channels_last).cuda()
     return model
 
+@param('training.lr')
+@param('training.epochs')
+@param('training.momentum')
+@param('training.weight_decay')
+@param('training.label_smoothing')
+@param('training.lr_peak_epoch')
+def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
+          momentum=None, weight_decay=None, lr_peak_epoch=None):
+    opt = SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
+    iters_per_epoch = len(loaders['train'])
+    # Cyclic LR with single triangle
+    lr_schedule = np.interp(np.arange((epochs+1) * iters_per_epoch),
+                            [0, lr_peak_epoch * iters_per_epoch, epochs * iters_per_epoch],
+                            [0, 1, 0])
+    scheduler = lr_scheduler.LambdaLR(opt, lr_schedule.__getitem__)
+    scaler = GradScaler()
+    loss_fn = CrossEntropyLoss(label_smoothing=label_smoothing)
+
+    for _ in range(epochs):
+        for ims, labs in tqdm(loaders['train']):
+            opt.zero_grad(set_to_none=True)
+            with autocast():
+                out = model(ims)
+                loss = loss_fn(out, labs)
+
+            scaler.scale(loss).backward()
+            scaler.step(opt)
+            scaler.update()
+            scheduler.step()
 
 @param('training.lr_tta')
 def evaluate(model, loaders, lr_tta=False):
@@ -169,38 +197,6 @@ def evaluate(model, loaders, lr_tta=False):
             print(f'{name} accuracy: {total_correct / total_num * 100:.1f}%')
             accuracies[name] = accuracy
     return accuracies
-
-@param('training.lr')
-@param('training.epochs')
-@param('training.momentum')
-@param('training.weight_decay')
-@param('training.label_smoothing')
-@param('training.lr_peak_epoch')
-def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
-          momentum=None, weight_decay=None, lr_peak_epoch=None):
-    opt = SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
-    iters_per_epoch = len(loaders['train'])
-    # Cyclic LR with single triangle
-    lr_schedule = np.interp(np.arange((epochs+1) * iters_per_epoch),
-                            [0, lr_peak_epoch * iters_per_epoch, epochs * iters_per_epoch],
-                            [0, 1, 0])
-    scheduler = lr_scheduler.LambdaLR(opt, lr_schedule.__getitem__)
-    scaler = GradScaler()
-    loss_fn = CrossEntropyLoss(label_smoothing=label_smoothing)
-    for i in range(epochs):
-        for ims, labs in tqdm(loaders['train']):
-            opt.zero_grad(set_to_none=True)
-            with autocast():
-            
-                out = model(ims)
-            
-                loss = loss_fn(out, labs)
-            scaler.scale(loss).backward()
-            scaler.step(opt)
-            scaler.update()
-            scheduler.step()
-        if i%10==0:
-            acc=evaluate(model,loaders)
 
 def write_results(file, hyperparameters, runtime, accuracies):
     dictionary = {}
@@ -243,10 +239,9 @@ if __name__ == "__main__":
     config.summary()
     loaders, start_time = make_dataloaders()
     model = construct_model()
-    print(model)
     train(model, loaders)
     total_time = time.time() - start_time
     print(f'Total time: {total_time:.5f}')
     accuracies = evaluate(model, loaders)
-    write_results(f'result{sn}.json', args, total_time, accuracies)
+    write_results(f'resultrf{sn}.json', args, total_time, accuracies)
 
