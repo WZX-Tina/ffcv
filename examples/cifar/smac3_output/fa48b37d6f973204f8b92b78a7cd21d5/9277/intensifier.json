@@ -1,0 +1,149 @@
+{
+  "incumbent_ids": [
+    68
+  ],
+  "rejected_config_ids": [
+    1,
+    2,
+    4,
+    6,
+    9,
+    10,
+    13,
+    26,
+    42,
+    50,
+    51
+  ],
+  "incumbents_changed": 12,
+  "trajectory": [
+    {
+      "config_ids": [
+        1
+      ],
+      "costs": [
+        -0.74
+      ],
+      "trial": 1,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        2
+      ],
+      "costs": [
+        -1.0
+      ],
+      "trial": 2,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        4
+      ],
+      "costs": [
+        -45.48
+      ],
+      "trial": 4,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        6
+      ],
+      "costs": [
+        -45.66
+      ],
+      "trial": 6,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        9
+      ],
+      "costs": [
+        -47.55
+      ],
+      "trial": 9,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        10
+      ],
+      "costs": [
+        -47.69
+      ],
+      "trial": 10,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        13
+      ],
+      "costs": [
+        -48.08
+      ],
+      "trial": 13,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        26
+      ],
+      "costs": [
+        -50.62
+      ],
+      "trial": 26,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        42
+      ],
+      "costs": [
+        -51.58
+      ],
+      "trial": 42,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        50
+      ],
+      "costs": [
+        -51.71
+      ],
+      "trial": 50,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        51
+      ],
+      "costs": [
+        -51.89
+      ],
+      "trial": 51,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        68
+      ],
+      "costs": [
+        -52.84
+      ],
+      "trial": 68,
+      "walltime": 0.0
+    }
+  ],
+  "state": {
+    "queue": [
+      [
+        80,
+        1
+      ]
+    ]
+  }
+}

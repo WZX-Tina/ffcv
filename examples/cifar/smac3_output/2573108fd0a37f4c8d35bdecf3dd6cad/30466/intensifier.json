@@ -1,0 +1,149 @@
+{
+  "incumbent_ids": [
+    76
+  ],
+  "rejected_config_ids": [
+    1,
+    4,
+    14,
+    20,
+    31,
+    32,
+    41,
+    47,
+    55,
+    57,
+    74
+  ],
+  "incumbents_changed": 12,
+  "trajectory": [
+    {
+      "config_ids": [
+        1
+      ],
+      "costs": [
+        -48.34
+      ],
+      "trial": 1,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        4
+      ],
+      "costs": [
+        -54.83
+      ],
+      "trial": 4,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        14
+      ],
+      "costs": [
+        -58.31
+      ],
+      "trial": 14,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        20
+      ],
+      "costs": [
+        -59.01
+      ],
+      "trial": 20,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        31
+      ],
+      "costs": [
+        -59.16
+      ],
+      "trial": 31,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        32
+      ],
+      "costs": [
+        -59.3
+      ],
+      "trial": 32,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        41
+      ],
+      "costs": [
+        -59.46
+      ],
+      "trial": 41,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        47
+      ],
+      "costs": [
+        -59.47
+      ],
+      "trial": 47,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        55
+      ],
+      "costs": [
+        -59.56
+      ],
+      "trial": 55,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        57
+      ],
+      "costs": [
+        -59.57
+      ],
+      "trial": 57,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        74
+      ],
+      "costs": [
+        -59.67
+      ],
+      "trial": 74,
+      "walltime": 0.0
+    },
+    {
+      "config_ids": [
+        76
+      ],
+      "costs": [
+        -59.93
+      ],
+      "trial": 76,
+      "walltime": 0.0
+    }
+  ],
+  "state": {
+    "queue": [
+      [
+        80,
+        1
+      ]
+    ]
+  }
+}

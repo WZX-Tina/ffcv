@@ -19,9 +19,11 @@ import random
 import argparse
 from argparse import ArgumentParser
 class resnet:
+    def __init__(self, seed=0):
+        self.sn = seed
     @property
     def configspace(self) -> ConfigurationSpace:
-        cs = ConfigurationSpace(seed = 0)
+        cs = ConfigurationSpace(seed = self.sn)
         batch_size = Constant('batch_size',4196)
         lr = UniformFloatHyperparameter('lr',lower = 0.0001,upper=10,log = True)
         epochs = Integer('epochs',(30,300))
@@ -104,10 +106,10 @@ if __name__ == "__main__":
     args = vars(parser.parse_args())['seed']
     print(args)
     random.seed(args)
-    model = resnet()
+    model = resnet(args)
 
     # Scenario object
-    scenario = Scenario(model.configspace, deterministic=False, n_trials=100)
+    scenario = Scenario(model.configspace, deterministic=False, n_trials=100,seed = args)
 
     intensifier_gp = BlackBoxFacade.get_intensifier(
         scenario,
@@ -130,6 +132,7 @@ if __name__ == "__main__":
     
         info = smac.ask()
         assert info.seed is not None
+        print(info.config)
         cost = model.train(config=info.config, seed=info.seed,sn=args)
         value = TrialValue(cost=cost, time=0.5)
 
