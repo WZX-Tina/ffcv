@@ -1,0 +1,20 @@
+data:
+  gpu: 0
+  num_workers: 8
+  train_dataset: /scratch/zd2260/cifar_train.beton
+  val_dataset: /scratch/zd2260/cifar_test.beton
+
+training:
+  batch_size: 4196
+  lr: 0.5939306173231546
+  epochs: 153
+  momentum: 0.3536071844145192
+  weight_decay: 0.03173937904181976
+  label_smoothing: 0.08577462028439803
+  lr_tta: True
+  num_workers: 8
+  lr_peak_epoch: 127
+
+seed:
+  seednum: 30637
+

@@ -20,11 +20,16 @@ Section('data', 'arguments to give the writer').params(
     val_dataset=Param(str, 'Where to write the new dataset', required=True),
 )
 
+import torchvision.transforms as tt
 @param('data.train_dataset')
 @param('data.val_dataset')
 def main(train_dataset, val_dataset):
+    mean = [0.5070751592371323, 0.48654887331495095, 0.4409178433670343]
+    std = [0.26733428587941854, 0.25643846292120615, 0.2761504713263903]
+
+    transform_train = tt.Compose([tt.RandomCrop(32, padding=4,padding_mode='reflect')])
     datasets = {
-        'train': torchvision.datasets.CIFAR100('/tmp', train=True, download=True),
+        'train': torchvision.datasets.CIFAR100('/tmp', train=True, download=True,transform=transform_train),
         'test': torchvision.datasets.CIFAR100('/tmp', train=False, download=True)
         }
 

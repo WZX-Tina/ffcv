@@ -32,7 +32,7 @@ from tqdm import tqdm
 import torch as ch
 from torch.cuda.amp import GradScaler, autocast
 from torch.nn import CrossEntropyLoss, Conv2d, BatchNorm2d
-from torch.optim import SGD, lr_scheduler
+from torch.optim import SGD, lr_scheduler,Adam
 import torchvision
 from torchvision import models
 from torchvision.models import resnet18
@@ -178,7 +178,7 @@ def evaluate(model, loaders, lr_tta=False):
 @param('training.lr_peak_epoch')
 def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
           momentum=None, weight_decay=None, lr_peak_epoch=None):
-    opt = SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
+    opt = Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     iters_per_epoch = len(loaders['train'])
     # Cyclic LR with single triangle
     lr_schedule = np.interp(np.arange((epochs+1) * iters_per_epoch),
