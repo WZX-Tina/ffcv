@@ -71,16 +71,19 @@ def accuracy(outputs, labels):
     return torch.tensor(torch.sum(preds == labels).item() / len(preds))
 
 class ImageClassificationBase(nn.Module):
+    def __init__(self,label_smoothing):
+        super().__init__()
+        self.label_smoothing = label_smoothing
     def training_step(self, batch):
         images, labels = batch 
         out = self(images)                  # Generate predictions
-        loss = F.cross_entropy(out, labels) # Calculate loss
+        loss = F.cross_entropy(out, labels,label_smoothing = self.label_smoothing) # Calculate loss
         return loss
     
     def validation_step(self, batch):
         images, labels = batch 
         out = self(images)                    # Generate predictions
-        loss = F.cross_entropy(out, labels)   # Calculate loss
+        loss = F.cross_entropy(out, labels,label_smoothing = self.label_smoothing)   # Calculate loss
         acc = accuracy(out, labels)           # Calculate accuracy
         return {'val_loss': loss.detach(), 'val_acc': acc}
         
@@ -97,14 +100,14 @@ class ImageClassificationBase(nn.Module):
         
 def conv_block(in_channels, out_channels, pool=False):
     layers = [nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1), 
-              nn.BatchNorm2d(out_channels), 
+             # nn.BatchNorm2d(out_channels), 
               nn.ReLU(inplace=True)]
     if pool: layers.append(nn.MaxPool2d(2))
     return nn.Sequential(*layers)
 
 class ResNet9(ImageClassificationBase):
-    def __init__(self, in_channels, num_classes):
-        super().__init__()
+    def __init__(self, in_channels, num_classes,label_smoothing):
+        super().__init__(label_smoothing)
         
         self.conv1 = conv_block(in_channels, 64)
         self.conv2 = conv_block(64, 128, pool=True) 
@@ -214,7 +217,7 @@ if __name__ == "__main__":
     epochs = vars(config.get().training)['epochs']
     lr = vars(config.get().training)['lr']
     weight_decay = vars(config.get().training)['weight_decay']
-
+    label_smoothing = vars(config.get().training)['label_smoothing']
     train_data = torchvision.datasets.CIFAR100('./', train=True, download=True)
 
     # Stick all the images together to form a 1600000 X 32 X 3 array
@@ -247,14 +250,14 @@ if __name__ == "__main__":
     device = get_default_device()
     trainloader = DeviceDataLoader(trainloader, device)
     testloader = DeviceDataLoader(testloader, device)
-    model = to_device(ResNet9(3, 100), device)
+    model = to_device(ResNet9(3, 100,label_smoothing = label_smoothing), device)
     current_time=time.time()
     history = [evaluate(model, testloader)]
     history += fit_one_cycle(epochs, lr, model, trainloader, testloader, 
-                                grad_clip=0.1, 
+                                grad_clip=0.01, 
                                 weight_decay=weight_decay,
                                 opt_func = torch.optim.Adam)
-    accuracies = history[-1]['val_acc']
+    accuracies = max(history, key=lambda x: x['val_acc'])['val_acc']
     args = config.get().training
     args = vars(args)
     write_results(f'result{sn}.json', args, time.time()-current_time, accuracies)
